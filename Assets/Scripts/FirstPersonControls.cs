@@ -1,15 +1,18 @@
 
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq.Expressions;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal.Internal;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class FirstPersonControls : MonoBehaviour
 {
@@ -29,9 +32,9 @@ public class FirstPersonControls : MonoBehaviour
     public Vector2 moveInput; // Stores the movement input from the player
     private Vector2 lookInput; // Stores the look input from the player
     private float verticalLookRotation = 0f; // Keeps track of vertical camera rotation for clamping
-    private Vector3 velocity; // Velocity of the player
+    public Vector3 velocity; // Velocity of the player
     private CharacterController characterController; // Reference to the CharacterController component
-    public Rigidbody rb;
+    //public Rigidbody rb;
     public bool canPlayerMove = true;
     private NewControls playerInput;
 
@@ -55,12 +58,6 @@ public class FirstPersonControls : MonoBehaviour
     private float currentStamina;
     private float lastSprintTime;
 
-    [Header("PAUSE")]
-    [Space(5)]
-    public GameObject pauseOne;
-    public GameObject pauseTwo;
-    public GameObject pauseThree;
-
     [Header("DASH")]
     public float dashForce = 20f;
     public float dashUpwardForce = 0f;
@@ -72,6 +69,12 @@ public class FirstPersonControls : MonoBehaviour
     public bool readyToDash = true;
 
     public Dashing dashingScript;
+
+    [Header("PORTAL")]
+    public PortalGun portalGun;
+    public event Action<int> OnPortalShot;
+    private PlayerInput.OnFootActions onFoot;
+    private NewControls.PortalsActions portals;
 
     private void Awake()
     {
@@ -89,6 +92,7 @@ public class FirstPersonControls : MonoBehaviour
     {
         // Create a new instance of the input actions
         playerInput = new NewControls();
+        portals = playerInput.Portals;
 
         // Enable the input actions
         playerInput.Player.Enable();
@@ -113,6 +117,11 @@ public class FirstPersonControls : MonoBehaviour
 
         // Subscribe to the jump input event
         playerInput.Player.Dash.performed += ctx => Dash(); // Call the Jump method when jump input is performed
+
+        portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
+        portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+
+        playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
     }
 
     private void OnDisable()
@@ -211,37 +220,6 @@ public class FirstPersonControls : MonoBehaviour
         }
     }
 
-    /*private void Dash()
-    {
-        if (!readyToDash) return;
-
-        readyToDash = false;
-        isDashing = true;
-
-        Vector3 dashDirection = GetDashDirection();
-
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
-        if (dashUpwardForce > 0f) 
-            rb.AddForce(Vector3.up * dashUpwardForce, ForceMode.Impulse);
-
-        Invoke(nameof(ResetDash), dashDuration);
-    }
-
-    private Vector3 GetDashDirection()
-    {
-        Vector3 forward = playerCamera.transform.forward;
-        forward.y = 0f;
-        return forward.normalized;
-    }
-
-    private void ResetDash()
-    {
-        isDashing = false;
-        Invoke(nameof(ResetDashCooldown), dashCooldown);
-    }*/
-
     private void Dash()
     {
         if (!readyToDash) return;
@@ -288,61 +266,6 @@ public class FirstPersonControls : MonoBehaviour
         readyToDash = true;
     }
 
-    /*public IEnumerator DelayPause(int pauseNum, float delay)
-    {
-        //HUD.alpha = 1f;
-        yield return new WaitForSeconds(delay);
-        PauseScreen(pauseNum);
-    }
-
-    public void PauseScreen(int pauseNum)
-    {
-        canPlayerMove = false;
-        enemyAI.canEnemyMove = false; // Stop main enemy movement
-        foreach (EnemyAI enemy in smallEnemyAI)
-        {
-            if (enemy != null)
-                if (enemy.canEnemyMove)
-                {
-                    enemy.canEnemyMove = false; // Stop all enemies
-                    enemy.couldMove = true;
-                }
-        }
-        switch (pauseNum)
-        {
-            case 1:
-                healthScript.mustDecreaseHealth = false;
-                pauseOne.SetActive(true);
-                break;
-            case 2:
-                //Debug.Log("Button Clicked");
-                pauseOne.SetActive(false);
-                pauseTwo.SetActive(true);
-                break;
-            case 3:
-                pauseThree.SetActive(true);
-                break;
-        }
-    }
-
-    public void ClosePause()
-    {
-        canPlayerMove = true;
-        //enemyAI.canEnemyMove = true; // Resume main enemy movement
-        foreach (EnemyAI enemy in smallEnemyAI)
-        {
-            if (enemy.couldMove)
-            {
-                enemy.canEnemyMove = true; // Resume all enemies
-                enemy.couldMove = false;
-            }
-        }
-        healthScript.mustDecreaseHealth = true;
-        pauseOne.SetActive(false);
-        pauseTwo.SetActive(false);
-        pauseThree.SetActive(false);
-    }*/
-
     private void StartSprint()
     {
         if (canSprint)
@@ -380,6 +303,15 @@ public class FirstPersonControls : MonoBehaviour
             currentStamina += staminaRegenRate * Time.deltaTime;
             currentStamina = Mathf.Min(currentStamina, maxStamina);
         }
+    }
+
+    public void ReloadCurrentScene()
+    {
+        // Get the current active scene
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        // Reload the current scene
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
 

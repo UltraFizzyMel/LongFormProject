@@ -11,7 +11,8 @@ public class Portal : MonoBehaviour
     private Portal otherPortal;
 
     public GameObject player;
-    private PlayerMotor motor;
+    //private PlayerMotor motor;
+    [SerializeField] FirstPersonControls firstPersonControls;
     private CharacterController cc;
     public GameObject ExitPosition;
     
@@ -23,7 +24,7 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        motor = player.GetComponent<PlayerMotor>();
+        //motor = player.GetComponent<PlayerMotor>();
        // motor = GameObject.FindAnyObjectByType<PlayerMotor>();
         cc = player.GetComponent<CharacterController>();
         //cc = GameObject.FindAnyObjectByType<CharacterController>();
@@ -126,10 +127,10 @@ public class Portal : MonoBehaviour
         player.transform.position = exitPosition;
         
         cc.enabled = true;
-        
-        motor.playerVelocity = exitVelocity;
 
-        Debug.Log("Player Velocity exiting: " + motor.playerVelocity);
+        firstPersonControls.velocity = exitVelocity;
+
+        Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
 
 
     }
