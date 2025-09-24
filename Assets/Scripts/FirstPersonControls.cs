@@ -128,11 +128,15 @@ public class FirstPersonControls : MonoBehaviour
        // portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
 
         playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
+
+        //portals 
+        portals.Enable();
     }
 
     private void OnDisable()
     {
         playerInput.Player.Disable();
+        portals.Disable();
     }
 
     private void Update()
