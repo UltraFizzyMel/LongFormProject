@@ -18,10 +18,10 @@ public class PortalGun : MonoBehaviour
             Debug.LogWarning("Expected 2 portals but found " + portals.Length); 
         }
 
-        if (inputManager != null)
+       /* if (inputManager != null)
         {
             inputManager.OnPortalShot += ShootPortal;
-        }
+        }*/
 
     }
 
