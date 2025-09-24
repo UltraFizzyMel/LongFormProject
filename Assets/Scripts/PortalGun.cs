@@ -31,8 +31,8 @@ public class PortalGun : MonoBehaviour
     // Update is called once per frame
     public void ShootPortal(int portalIndex)
     {
-       
-        
+
+        Debug.Log("Shoot Portal");
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit rayCastHit;
         Debug.DrawRay(ray.origin, ray.direction * gunRange, Color.yellow, 1.0f);

@@ -36,6 +36,7 @@ public class FirstPersonControls : MonoBehaviour
     private CharacterController characterController; // Reference to the CharacterController component
     //public Rigidbody rb;
     public bool canPlayerMove = true;
+   
     private NewControls playerInput;
 
     [Header("CROUCH HEIGHT SETTINGS")]
@@ -76,10 +77,15 @@ public class FirstPersonControls : MonoBehaviour
     private PlayerInput.OnFootActions onFoot;
     private NewControls.PortalsActions portals;
 
+
     private void Awake()
     {
+        playerInput = new NewControls();
+        portals = playerInput.Portals;
         // Get and store the CharacterController component attached to this GameObject
         characterController = GetComponent<CharacterController>();
+        portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
+        portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
     }
 
     public void Start()
@@ -92,7 +98,7 @@ public class FirstPersonControls : MonoBehaviour
     {
         // Create a new instance of the input actions
         playerInput = new NewControls();
-        portals = playerInput.Portals;
+        
 
         // Enable the input actions
         playerInput.Player.Enable();
@@ -118,8 +124,8 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the jump input event
         playerInput.Player.Dash.performed += ctx => Dash(); // Call the Jump method when jump input is performed
 
-        portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
-        portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+        //portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
+       // portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
 
         playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
     }

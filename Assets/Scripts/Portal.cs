@@ -12,7 +12,7 @@ public class Portal : MonoBehaviour
 
     public GameObject player;
     //private PlayerMotor motor;
-    [SerializeField] FirstPersonControls firstPersonControls;
+    private FirstPersonControls firstPersonControls;
     private CharacterController cc;
     public GameObject ExitPosition;
     
@@ -128,9 +128,9 @@ public class Portal : MonoBehaviour
         
         cc.enabled = true;
 
-        firstPersonControls.velocity = exitVelocity;
+        //firstPersonControls.velocity = exitVelocity;
 
-        Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
+        Debug.Log("Player Velocity exiting: " + cc.velocity);
 
 
     }
