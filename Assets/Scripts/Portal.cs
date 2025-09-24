@@ -27,6 +27,7 @@ public class Portal : MonoBehaviour
         //motor = player.GetComponent<PlayerMotor>();
        // motor = GameObject.FindAnyObjectByType<PlayerMotor>();
         cc = player.GetComponent<CharacterController>();
+        firstPersonControls = player.GetComponent<FirstPersonControls>();  
         //cc = GameObject.FindAnyObjectByType<CharacterController>();
 
         disableTimer = 0f;
@@ -72,6 +73,7 @@ public class Portal : MonoBehaviour
                     otherPortalGO = portalObj;
                     otherPortal = otherPortalGO.GetComponent<Portal>();
                     foundOtherPortal = true; // Set flag to true after finding it
+                   // Debug.Log("Player Velocity entering: " + firstPersonControls.velocity.magnitude);
                 }
             }
         }
@@ -128,9 +130,9 @@ public class Portal : MonoBehaviour
         
         cc.enabled = true;
 
-        //firstPersonControls.velocity = exitVelocity;
+        firstPersonControls.velocity = exitVelocity;
 
-        Debug.Log("Player Velocity exiting: " + cc.velocity);
+        Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
 
 
     }
