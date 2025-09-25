@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Portal
+  - DeathBox
   layers:
   - Default
   - TransparentFX
