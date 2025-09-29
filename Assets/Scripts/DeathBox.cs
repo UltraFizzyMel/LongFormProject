@@ -22,7 +22,7 @@ public class DeathBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag ("Deathbox"))
+        if (other.gameObject.CompareTag ("Player"))
         {
             Debug.Log("Dead");
             PLayer.transform.position = RespawnPoint.transform.position;
