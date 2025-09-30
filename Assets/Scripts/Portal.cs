@@ -11,7 +11,8 @@ public class Portal : MonoBehaviour
     private Portal otherPortal;
 
     public GameObject player;
-    private PlayerMotor motor;
+    //private PlayerMotor motor;
+    private FirstPersonControls firstPersonControls;
     private CharacterController cc;
     public GameObject portalRed;
     public GameObject portalBlue;
@@ -25,9 +26,10 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        motor = player.GetComponent<PlayerMotor>();
+        //motor = player.GetComponent<PlayerMotor>();
        // motor = GameObject.FindAnyObjectByType<PlayerMotor>();
         cc = player.GetComponent<CharacterController>();
+        firstPersonControls = player.GetComponent<FirstPersonControls>();  
         //cc = GameObject.FindAnyObjectByType<CharacterController>();
 
         disableTimer = 0f;
@@ -73,6 +75,7 @@ public class Portal : MonoBehaviour
                     otherPortalGO = portalObj;
                     otherPortal = otherPortalGO.GetComponent<Portal>();
                     foundOtherPortal = true; // Set flag to true after finding it
+                   // Debug.Log("Player Velocity entering: " + firstPersonControls.velocity.magnitude);
                 }
             }
         }
@@ -128,10 +131,10 @@ public class Portal : MonoBehaviour
         player.transform.position = exitPosition;
         
         cc.enabled = true;
-        
-        motor.playerVelocity = exitVelocity;
 
-        Debug.Log("Player Velocity exiting: " + motor.playerVelocity);
+        firstPersonControls.velocity = exitVelocity;
+
+        Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
 
 
     }
