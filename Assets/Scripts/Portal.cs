@@ -13,7 +13,9 @@ public class Portal : MonoBehaviour
     public GameObject player;
     private PlayerMotor motor;
     private CharacterController cc;
-    public GameObject ExitPosition;
+    public GameObject portalRed;
+    public GameObject portalBlue;
+   
     
 
     public bool hasMoved = false;
@@ -136,8 +138,9 @@ public class Portal : MonoBehaviour
 
     public void MovePortal(RaycastHit raycastHit)
     {
+        Instantiate(this.gameObject, raycastHit.point, Quaternion.identity);
         hasMoved = true;
-        transform.position = raycastHit.point;
+       // transform.position = raycastHit.point;
         portalNormal = raycastHit.normal;
     }
 }
