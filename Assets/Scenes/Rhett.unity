@@ -3147,6 +3147,7 @@ GameObject:
   - component: {fileID: 1553989959}
   - component: {fileID: 1553989958}
   - component: {fileID: 1553989957}
+  - component: {fileID: 1553989962}
   m_Layer: 0
   m_Name: PortalBlue
   m_TagString: Portal
@@ -3187,7 +3188,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -3251,12 +3252,33 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.53, y: 15.29, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2.446534, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 254810123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1553989962
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553989956}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.3967, z: 1.4469452}
+  m_Center: {x: 0, y: -0.20757294, z: 0.0026557744}
 --- !u!1 &1581500153
 GameObject:
   m_ObjectHideFlags: 0
@@ -3834,6 +3856,7 @@ GameObject:
   - component: {fileID: 1801871004}
   - component: {fileID: 1801871003}
   - component: {fileID: 1801871002}
+  - component: {fileID: 1801871007}
   m_Layer: 0
   m_Name: PortalRed
   m_TagString: Portal
@@ -3874,7 +3897,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -3937,13 +3960,34 @@ Transform:
   m_GameObject: {fileID: 1801871001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.95, y: 15.29, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -6.95, y: 15.321, z: 0}
+  m_LocalScale: {x: 1, y: 2.4465337, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 895251596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1801871007
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801871001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.0118446, z: 1.2188771}
+  m_Center: {x: 0, y: -0.021744728, z: 0.030363798}
 --- !u!1 &1829292423
 GameObject:
   m_ObjectHideFlags: 0
