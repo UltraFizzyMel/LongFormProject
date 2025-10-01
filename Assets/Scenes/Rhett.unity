@@ -590,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &344342688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1495,6 +1495,8 @@ MonoBehaviour:
   readyToDash: 1
   dashingScript: {fileID: 0}
   portalGun: {fileID: 872060436}
+  portalVelocity: {x: 0, y: 0, z: 0}
+  portalVelocityDecay: 2
 --- !u!143 &872060440
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1601,6 +1603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RespawnPoint: {fileID: 417996971}
   PLayer: {fileID: 872060434}
+  FPC: {fileID: 872060439}
 --- !u!114 &872060445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2324,6 +2327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RespawnPoint: {fileID: 417996971}
   PLayer: {fileID: 872060434}
+  FPC: {fileID: 0}
 --- !u!1 &1117151351
 GameObject:
   m_ObjectHideFlags: 0
