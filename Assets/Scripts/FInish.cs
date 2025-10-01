@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FInish : MonoBehaviour
+public class Finish : MonoBehaviour
 {
     public GameObject WS;
     public PortalGun PG;
@@ -24,8 +24,10 @@ public class FInish : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("You Win!");
+            FPC.canPlayerMove = false;
             WS.SetActive(true);
-            PG.enabled = false;
+            //PG.enabled = false;
             FPC.enabled = false;
             //PC.enabled = false;
         }

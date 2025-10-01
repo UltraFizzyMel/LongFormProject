@@ -2626,7 +2626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RespawnPoint: {fileID: 417996971}
   PLayer: {fileID: 872060434}
-  FPC: {fileID: 0}
+  FPC: {fileID: 872060439}
 --- !u!1 &1100090896
 GameObject:
   m_ObjectHideFlags: 0
@@ -4858,7 +4858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1885855726
 RectTransform:
   m_ObjectHideFlags: 0
