@@ -2667,6 +2667,7 @@ GameObject:
   - component: {fileID: 1077835136}
   - component: {fileID: 1077835135}
   - component: {fileID: 1077835139}
+  - component: {fileID: 1077835140}
   m_Layer: 0
   m_Name: Death Box
   m_TagString: DeathBox
@@ -2767,13 +2768,28 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077835134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90999e48a5d2f4044ad8941342326b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RespawnPoint: {fileID: 417996971}
   PLayer: {fileID: 872060434}
+  FPC: {fileID: 872060439}
+--- !u!114 &1077835140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077835134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e107ab709bd68e74c98c258bb56ac9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WS: {fileID: 0}
+  PG: {fileID: 872060436}
   FPC: {fileID: 872060439}
 --- !u!1 &1100090896
 GameObject:
