@@ -6,23 +6,20 @@ using UnityEngine;
 public class PortalPlacement : MonoBehaviour
 {
     [SerializeField]
-    //private PortalPair portals;
+    private PortalPair portals;
 
-    //[SerializeField]
+    [SerializeField]
     private LayerMask layerMask;
 
     [SerializeField]
-    //private Crosshair crosshair;
+    private Crosshair crosshair;
 
     //private CameraMove cameraMove;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        //cameraMove = GetComponent<CameraMove>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         

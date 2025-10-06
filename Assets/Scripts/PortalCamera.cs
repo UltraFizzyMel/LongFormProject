@@ -7,8 +7,8 @@ using RenderPipeline = UnityEngine.Rendering.RenderPipelineManager;
 
 public class PortalCamera : MonoBehaviour
 {
-    //[SerializeField]
-    //private Portal[] portals = new Portal[2];
+    [SerializeField]
+    private Portals[] portals = new Portals[2];
 
     [SerializeField]
     private Camera portalCamera;
@@ -31,8 +31,8 @@ public class PortalCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //portals[0].Renderer.material.mainTexture = tempTexture1;
-        //portals[1].Renderer.material.mainTexture = tempTexture2;
+        portals[0].Renderer.material.mainTexture = tempTexture1;
+        portals[1].Renderer.material.mainTexture = tempTexture2;
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class PortalCamera : MonoBehaviour
 
     void UpdateCamera(ScriptableRenderContext SRC, Camera camera)
     {
-        /*if (!portals[0].IsPlaced || !portals[1].IsPlaced) return;
+        if (!portals[0].IsPlaced || !portals[1].IsPlaced) return;
 
         if (portals[0].Renderer.isVisible)
         {
@@ -61,15 +61,15 @@ public class PortalCamera : MonoBehaviour
 
         if (portals[1].Renderer.isVisible)
         {
-            portalCamera.targetTexture = tempTexture1;
+            portalCamera.targetTexture = tempTexture2;
             for (int i = iterations - 1; i >= 0; i--)
             {
                 RenderCamera(portals[1], portals[0], i, SRC);
             }
-        }*/
+        }
     }
 
-    /*private void RenderCamera(Portal inPortal, Portal outPortal, int iterationID, ScriptableRenderContext SRC)
+    private void RenderCamera(Portal inPortal, Portal outPortal, int iterationID, ScriptableRenderContext SRC)
     {
         Transform inTransform = inPortal.transform;
         Transform outTransform = outPortal.transform;
@@ -102,5 +102,5 @@ public class PortalCamera : MonoBehaviour
 
         // Render the camera to its render target
         UniversalRenderPipeline.RenderSingleCamera(SRC, portalCamera);
-    }*/
+    }
 }

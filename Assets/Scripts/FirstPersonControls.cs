@@ -75,7 +75,13 @@ public class FirstPersonControls : MonoBehaviour
     public PortalGun portalGun;
     public event Action<int> OnPortalShot;
     private PlayerInput.OnFootActions onFoot;
-    private NewControls.PortalsActions portals;
+    //private NewControls.PortalsActions portals;
+    [SerializeField]
+    private LayerMask layerMask;
+    [SerializeField]
+    private Crosshair crosshair;
+    [SerializeField]
+    private PortalPair portals;
 
     [Header("PORTAL VELOCITY")]
     public Vector3 portalVelocity; // Separate portal exit velocity
@@ -85,11 +91,11 @@ public class FirstPersonControls : MonoBehaviour
     private void Awake()
     {
         playerInput = new NewControls();
-        portals = playerInput.Portals;
+        //portals = playerInput.Portals;
         // Get and store the CharacterController component attached to this GameObject
         characterController = GetComponent<CharacterController>();
-        portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
-        portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+        //portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
+        //portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
     }
 
     public void Start()
@@ -128,8 +134,8 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the jump input event
         playerInput.Player.Dash.performed += ctx => Dash(); // Call the Jump method when jump input is performed
 
-        //portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
-       // portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+        playerInput.Portals.RedPortal.performed += ctx => FirePortal(0, transform.position, transform.forward, 250.0f);
+        playerInput.Portals.BluePortal.performed += ctx => FirePortal(1, transform.position, transform.forward, 250.0f);
 
         playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
 
@@ -153,6 +159,64 @@ public class FirstPersonControls : MonoBehaviour
             ApplyGravity();
             UpdateStamina();
             ApplyPortalVelocity();
+        }
+    }
+
+    private void FirePortal(int portalID, Vector3 pos, Vector3 dir, float distance)
+    {
+        RaycastHit hit;
+        Physics.Raycast(pos, dir, out hit, distance, layerMask);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.tag == "Portal")
+            {
+                var inPortal = hit.collider.GetComponent<Portals>();
+                if (inPortal == null)
+                {
+                    return;
+                }
+
+                var outPortal = inPortal.OtherPortal;
+
+                Vector3 relativePos = inPortal.transform.InverseTransformPoint(hit.point + dir);
+                relativePos = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativePos;
+                pos = outPortal.transform.TransformPoint(relativePos);
+
+                Vector3 relativeDir = inPortal.transform.InverseTransformDirection(dir);
+                relativeDir = Quaternion.Euler(0.0f, 180.0f, 0.0f) * relativeDir;
+                dir = outPortal.transform.TransformDirection(relativeDir);
+
+                distance -= Vector3.Distance(pos, hit.point);
+
+                FirePortal(portalID, pos, dir, distance);
+
+                return;
+            }
+
+            var cameraRotation = playerCamera.rotation;
+            var portalRight = cameraRotation * Vector3.right;
+
+            if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
+            {
+                portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
+            }
+            else
+            {
+                portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
+            }
+
+            var portalForward = -hit.normal;
+            var portalUp = -Vector3.Cross(portalRight, portalForward);
+
+            var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+
+            bool wasPlaced = portals.Portals[portalID].PlacePortal(hit.collider, hit.point, portalRotation);
+
+            if (wasPlaced)
+            {
+                crosshair.SetPortalPlaced(portalID, true);
+            }
         }
     }
 
