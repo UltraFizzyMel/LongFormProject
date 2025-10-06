@@ -4,6 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Rhett.unity
+    guid: fdd1cfc7bdcd3cd408ba7d3327f77e31
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: b889c7c48c4a80640b9270fce9179ee9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3de1053d9faf5254e8903f20de192174, type: 3}
