@@ -132,7 +132,8 @@ public class Portal : MonoBehaviour
         
         cc.enabled = true;
 
-        firstPersonControls.velocity = exitVelocity;
+        firstPersonControls.AddPortalExitVelocity(exitVelocity);
+
 
         Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
 

@@ -77,6 +77,10 @@ public class FirstPersonControls : MonoBehaviour
     private PlayerInput.OnFootActions onFoot;
     private NewControls.PortalsActions portals;
 
+    [Header("PORTAL VELOCITY")]
+    public Vector3 portalVelocity; // Separate portal exit velocity
+    public float portalVelocityDecay = 2f; // How quickly portal velocity fades
+
 
     private void Awake()
     {
@@ -148,7 +152,25 @@ public class FirstPersonControls : MonoBehaviour
             LookAround();
             ApplyGravity();
             UpdateStamina();
+            ApplyPortalVelocity();
         }
+    }
+
+    public void ApplyPortalVelocity()
+    {
+        if (portalVelocity.magnitude > 0.1f)
+        {
+            // Apply portal velocity
+            characterController.Move(portalVelocity * Time.deltaTime);
+
+            // Gradually reduce portal velocity (simulate friction/air resistance)
+            portalVelocity = Vector3.Lerp(portalVelocity, Vector3.zero, portalVelocityDecay * Time.deltaTime);
+        }
+    }
+
+    public void AddPortalExitVelocity(Vector3 exitVelocity)
+    {
+        portalVelocity = exitVelocity;
     }
 
     public void Move()
