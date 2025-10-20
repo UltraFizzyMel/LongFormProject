@@ -42,8 +42,15 @@ public class Portal : MonoBehaviour
        //otherPortalGO.GetComponent<SphereCollider>().enabled = false;
         if (collider.gameObject == player && disableTimer <= 0 && hasMoved && otherPortal.hasMoved)
         {
-            otherPortal.MovePlayerToThisPortal();
-            Debug.Log("Player Velocity entering: " + cc.velocity.magnitude);
+            // Capture the incoming velocity and this portal's rotation BEFORE teleporting
+            Vector3 incoming = firstPersonControls.velocity;
+            // Quaternion entryRotation = transform.rotation;
+
+            // Call the other portal's teleport method and pass the incoming velocity + entry rotation
+            otherPortal.MovePlayerToThisPortal(); //(incoming, entryRotation);
+
+            Debug.Log("Player Velocity entering: " + incoming.magnitude);
+
         } // currently checks if game object was a player or not 
     }
 
@@ -81,7 +88,7 @@ public class Portal : MonoBehaviour
         }
     }
 
-    public void MovePlayerToThisPortal()
+    public void MovePlayerToThisPortal() // (Vector3 incomingVelocity, Quaternion entryPortalRotation)
     {
         
         
@@ -89,62 +96,52 @@ public class Portal : MonoBehaviour
         disableTimer = 1f;
 
 
-        // 1. STORE the velocity FIRST, before any changes
-        // Store both the original velocity and calculate exit velocity
-        Vector3 incomingVelocity = cc.velocity;
-        Vector3 exitVelocity = portalNormal * incomingVelocity.magnitude;
+        // --- ROTATE THE VELOCITY from entry portal space to exit portal space ---
+        // 'this.transform.rotation' is the exit portal rotation
+       // Quaternion exitRotation = transform.rotation;
+       // Quaternion rotationDifference = exitRotation * Quaternion.Inverse(entryPortalRotation);
+       // Vector3 exitVelocity = rotationDifference * incomingVelocity;
 
-       
-        
+        // --- SAFE TELEPORT OFFSET (avoid collider overlap) ---
+        //SphereCollider portalCollider = GetComponent<SphereCollider>();
+       // float portalRadius = portalCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
+       // float playerRadius = cc.radius;
+       // float safetyBuffer = 0.6f;
+       // float totalOffset = portalRadius + playerRadius + safetyBuffer;
 
+        Vector3 exitVelocity = portalNormal * firstPersonControls.velocity.magnitude;
 
-
-
-        // 2. Get the RADIUS of the PORTAL's Sphere Collider
-        SphereCollider portalCollider = GetComponent<SphereCollider>();
-        float portalRadius = portalCollider.radius;
-        // Note: Remember to account for scale! If your portal is scaled, multiply by the scale.
-        portalRadius *= Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
-
-
-        float playerRadius = cc.radius;
-        float safetyBuffer = 1f; // A small extra distance to be safe
-
-        // 3. Calculate the TOTAL offset needed.
-        // This ensures the player's entire collider is clear of the portal's trigger.
-        float totalOffset = portalRadius + playerRadius + safetyBuffer;
-
-        // 4. Calculate the new spawn point using the total offset
-        
-        //Vector3 exitPosition = ExitPosition.transform.position;
-        Vector3 exitPosition = transform.position + (portalNormal * totalOffset);
-
-        
+        // Use forward of portal as its facing direction. Make sure when you place portals you set their rotation to face out of the surface.
+        Vector3 exitPosition = transform.position + otherPortal.portalNormal * 2;
         
 
         Debug.DrawLine(transform.position, exitPosition, Color.red, 5f);
         Debug.DrawRay(exitPosition, Vector3.up * 0.5f, Color.green, 5f);
 
-       
+        // --- TELEPORT (disable CC while moving) ---
         cc.enabled = false;
-
         player.transform.position = exitPosition;
-        
+
+        // Update FirstPersonControls' previous position so trueVelocity isn't corrupted next frame
+        //firstPersonControls.OverwritePreviousPosition(player.transform.position);
+
         cc.enabled = true;
 
-        firstPersonControls.AddPortalExitVelocity(exitVelocity);
+        // Apply exit velocity properly to both velocity and portal velocity
+        //firstPersonControls.AddPortalExitVelocity(exitVelocity);
+        firstPersonControls.SetVelocity(exitVelocity); // ensures gravity/system uses the new velocity
 
-
-        Debug.Log("Player Velocity exiting: " + firstPersonControls.velocity);
+        Debug.Log("Player Velocity exiting: " + exitVelocity.magnitude);
 
 
     }
 
     public void MovePortal(RaycastHit raycastHit)
     {
-        Instantiate(this.gameObject, raycastHit.point, Quaternion.identity);
+        //Instantiate(this.gameObject, raycastHit.point, Quaternion.identity);
         hasMoved = true;
-       // transform.position = raycastHit.point;
+        transform.position = raycastHit.point;
         portalNormal = raycastHit.normal;
+        transform.rotation = Quaternion.LookRotation(raycastHit.normal);
     }
 }

@@ -13,6 +13,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static NewControls;
 
 public class FirstPersonControls : MonoBehaviour
 {
@@ -36,8 +37,14 @@ public class FirstPersonControls : MonoBehaviour
     private CharacterController characterController; // Reference to the CharacterController component
     //public Rigidbody rb;
     public bool canPlayerMove = true;
-   
+
+  
+
     private NewControls playerInput;
+
+
+    
+
 
     [Header("CROUCH HEIGHT SETTINGS")]
     [Space(5)]
@@ -59,6 +66,8 @@ public class FirstPersonControls : MonoBehaviour
     private float currentStamina;
     private float lastSprintTime;
 
+   
+
     [Header("DASH")]
     public float dashForce = 20f;
     public float dashUpwardForce = 0f;
@@ -77,32 +86,54 @@ public class FirstPersonControls : MonoBehaviour
     private PlayerInput.OnFootActions onFoot;
     private NewControls.PortalsActions portals;
 
+    [Header("TRUE VELOCITY CALCULATION")]
+    private Vector3 previousPosition;
+    public Vector3 trueVelocity;
+
     [Header("PORTAL VELOCITY")]
     public Vector3 portalVelocity; // Separate portal exit velocity
     public float portalVelocityDecay = 2f; // How quickly portal velocity fades
+
+
+    public enum WeaponType { PortalGun, FreezeGun }
+    public WeaponType currentWeapon = WeaponType.PortalGun;
+    public FreezeGun freezeGun; // Reference to your FreezeGun script
+
+    private NewControls.FreezeGunActions freezeGunActions;
+
+
 
 
     private void Awake()
     {
         playerInput = new NewControls();
         portals = playerInput.Portals;
+        freezeGunActions = playerInput.FreezeGun;
         // Get and store the CharacterController component attached to this GameObject
         characterController = GetComponent<CharacterController>();
-        portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
-        portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+        
+        //portals.RedPortal.performed += ctx => { if (currentWeapon == WeaponType.PortalGun)  portalGun.ShootPortal(0); };
+        // portals.BluePortal.performed += ctx => { if (currentWeapon == WeaponType.PortalGun) portalGun.ShootPortal(1); };
+
+
+
+
     }
 
     public void Start()
     {
         currentMoveSpeed = moveSpeed;
         currentSprintSpeed = sprintSpeed;
+        previousPosition = transform.position;
     }
 
     private void OnEnable()
     {
         // Create a new instance of the input actions
         playerInput = new NewControls();
-        
+        portals = playerInput.Portals;
+        freezeGunActions = playerInput.FreezeGun;
+
 
         // Enable the input actions
         playerInput.Player.Enable();
@@ -125,35 +156,72 @@ public class FirstPersonControls : MonoBehaviour
 
         playerInput.Player.Sprint.canceled += ctx => StopSprint();
 
+        // Weapon switching
+        playerInput.Player.SwitchWeapons.performed += ctx => SwitchWeapon();
+
+
+        //FreeezeGun
+        freezeGunActions.Enable();
+        freezeGunActions.Shoot.performed += ctx => { if (currentWeapon == WeaponType.FreezeGun) freezeGun.shootBullet(); };
+
+
         // Subscribe to the jump input event
         playerInput.Player.Dash.performed += ctx => Dash(); // Call the Jump method when jump input is performed
 
-        //portals.RedPortal.performed += ctx => portalGun.ShootPortal(0);
-       // portals.BluePortal.performed += ctx => portalGun.ShootPortal(1);
+       
 
         playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
 
         //portals 
         portals.Enable();
+        portals.RedPortal.performed += ctx => { if (currentWeapon == WeaponType.PortalGun) portalGun.ShootPortal(0); };
+        portals.BluePortal.performed += ctx => { if (currentWeapon == WeaponType.PortalGun) portalGun.ShootPortal(1); };
+
+
+
     }
 
     private void OnDisable()
     {
         playerInput.Player.Disable();
         portals.Disable();
+        freezeGunActions.Disable();
     }
 
     private void Update()
     {
         if (canPlayerMove)
         {
+            // Calculate true velocity BEFORE any movement happens
+            
+
             // Call Move and LookAround methods every frame to handle player movement and camera rotation
             Move();
             LookAround();
             ApplyGravity();
             UpdateStamina();
-            ApplyPortalVelocity();
+            
+            //ApplyPortalVelocity();
+
+            //CalculateTrueVelocity();
         }
+
+        
+    }
+
+    private void CalculateTrueVelocity()
+    {
+        // Calculate velocity based on position change
+        trueVelocity = (transform.position - previousPosition) / Time.deltaTime;
+        previousPosition = transform.position;
+
+    }
+
+    // Public method to get the true velocity
+    public Vector3 GetTrueVelocity()
+    {
+        return trueVelocity;
+
     }
 
     public void ApplyPortalVelocity()
@@ -166,11 +234,27 @@ public class FirstPersonControls : MonoBehaviour
             // Gradually reduce portal velocity (simulate friction/air resistance)
             portalVelocity = Vector3.Lerp(portalVelocity, Vector3.zero, portalVelocityDecay * Time.deltaTime);
         }
+    
+           
+        
+    }
+
+    public void OverwritePreviousPosition(Vector3 pos)
+    {
+        previousPosition = pos;
+        trueVelocity = Vector3.zero;
+    }
+
+    // Force-set the character's current velocity vector (used after teleport)
+    public void SetVelocity(Vector3 v)
+    {
+        velocity = v;
     }
 
     public void AddPortalExitVelocity(Vector3 exitVelocity)
     {
         portalVelocity = exitVelocity;
+        velocity = exitVelocity;
     }
 
     public void Move()
@@ -337,6 +421,29 @@ public class FirstPersonControls : MonoBehaviour
         }
     }
 
+    private void SwitchWeapon()
+    {
+        if (currentWeapon == WeaponType.PortalGun)
+        {
+            SwitchToWeapon(WeaponType.FreezeGun);
+        }
+        else
+        {
+            SwitchToWeapon(WeaponType.PortalGun);
+        }
+    }
+
+    private void SwitchToWeapon(WeaponType weapon)
+    {
+        currentWeapon = weapon;
+
+        // Update UI or visual indicators here if needed
+        Debug.Log($"Switched to: {weapon}");
+
+        // You could also trigger weapon model switching here
+        // UpdateWeaponVisuals();
+    }
+
     public void ReloadCurrentScene()
     {
         // Get the current active scene
@@ -345,5 +452,6 @@ public class FirstPersonControls : MonoBehaviour
         // Reload the current scene
         SceneManager.LoadScene(currentSceneIndex);
     }
+
 }
 
