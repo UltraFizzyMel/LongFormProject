@@ -5413,9 +5413,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   otherPortalGO: {fileID: 1801871001}
-  player: {fileID: 872060434}
-  portalRed: {fileID: 1801871001}
-  portalBlue: {fileID: 1553989956}
+  player: {fileID: 278062613}
+  portalRed: {fileID: 0}
+  portalBlue: {fileID: 0}
   hasMoved: 0
 --- !u!135 &1553989958
 SphereCollider:
@@ -6666,9 +6666,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   otherPortalGO: {fileID: 1553989956}
-  player: {fileID: 872060434}
-  portalRed: {fileID: 1801871001}
-  portalBlue: {fileID: 1553989956}
+  player: {fileID: 278062613}
+  portalRed: {fileID: 0}
+  portalBlue: {fileID: 0}
   hasMoved: 0
 --- !u!135 &1801871003
 SphereCollider:
