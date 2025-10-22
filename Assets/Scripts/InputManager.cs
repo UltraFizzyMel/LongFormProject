@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     private PortalGun portalGun;
     private Reset reset;
 
-    public event Action<int> OnPortalShot;
+    //public event Action<int> OnPortalShot;
 
     void Awake()
     {

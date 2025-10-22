@@ -45,6 +45,7 @@ public class PortalGun : MonoBehaviour
             {
                 // 4. Command the specific portal (the 0th or the 1st in the array) to move.
                 portals[portalIndex].MovePortal(rayCastHit);
+                Debug.DrawLine(rayCastHit.normal, Vector3.forward, Color.red, 5f);
                 Debug.Log($"ShootPortal: Shot portal {portalIndex} at " + rayCastHit.point);
             }
 
