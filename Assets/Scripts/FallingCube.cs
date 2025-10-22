@@ -22,6 +22,9 @@ public class FallingCube : MonoBehaviour
     private Material frozenMat;
     private float spawnTime;
 
+    //Frozen particle effect
+    public GameObject effect;
+
     public void Initialize(float speed, float despawnY, float life, Material normalMaterial, Material frozenMaterial)
     {
         fallSpeed = speed;
@@ -30,6 +33,8 @@ public class FallingCube : MonoBehaviour
         normalMat = normalMaterial;
         frozenMat = frozenMaterial;
         spawnTime = Time.time;
+
+        effect.SetActive(false);
 
         SetupCube();
     }
@@ -60,6 +65,7 @@ public class FallingCube : MonoBehaviour
         {
             // Manual falling
             transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+            effect.SetActive(true); 
         }
 
         // Check for despawn conditions
@@ -130,6 +136,7 @@ public class FallingCube : MonoBehaviour
     void UnfreezeCube()
     {
         isFrozen = false;
+        effect.SetActive(false);
 
         // Restore normal material
         if (cubeRenderer != null && normalMat != null)

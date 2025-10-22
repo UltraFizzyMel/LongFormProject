@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 55187472}
   - component: {fileID: 55187471}
   - component: {fileID: 55187470}
+  - component: {fileID: 55187474}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Untagged
@@ -363,7 +364,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55187468}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e107ab709bd68e74c98c258bb56ac9e4, type: 3}
   m_Name: 
@@ -442,6 +443,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55187468}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &55187474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55187468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780850a36638ed440b55313c813b3c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &108392199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2207,8 +2220,11 @@ MonoBehaviour:
   readyToDash: 1
   dashingScript: {fileID: 0}
   portalGun: {fileID: 872060436}
+  trueVelocity: {x: 0, y: 0, z: 0}
   portalVelocity: {x: 0, y: 0, z: 0}
   portalVelocityDecay: 2
+  currentWeapon: 0
+  freezeGun: {fileID: 0}
 --- !u!143 &872060440
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4187,7 +4203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherPortalGO: {fileID: 1801871001}
   player: {fileID: 872060434}
-  ExitPosition: {fileID: 254810122}
+  portalRed: {fileID: 0}
+  portalBlue: {fileID: 0}
   hasMoved: 0
 --- !u!135 &1553989958
 SphereCollider:
@@ -5353,7 +5370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherPortalGO: {fileID: 1553989956}
   player: {fileID: 872060434}
-  ExitPosition: {fileID: 895251595}
+  portalRed: {fileID: 0}
+  portalBlue: {fileID: 0}
   hasMoved: 0
 --- !u!135 &1801871003
 SphereCollider:

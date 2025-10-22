@@ -42,7 +42,10 @@ public class FirstPersonControls : MonoBehaviour
 
     private NewControls playerInput;
 
-
+    [Header("Weapons")]
+    [Space(2)]
+    public GameObject PortalGun;
+    public GameObject FreezeGun;
     
 
 
@@ -445,10 +448,14 @@ public class FirstPersonControls : MonoBehaviour
         if (currentWeapon == WeaponType.PortalGun)
         {
             SwitchToWeapon(WeaponType.FreezeGun);
+            FreezeGun.SetActive(true);
+            PortalGun.SetActive(false);
         }
         else
         {
             SwitchToWeapon(WeaponType.PortalGun);
+            FreezeGun.SetActive(false);
+            PortalGun.SetActive(true);
         }
     }
 
