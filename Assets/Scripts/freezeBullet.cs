@@ -28,7 +28,7 @@ public class freezeBullet : MonoBehaviour
 
     }
 
-    private IEnumerator Freeze(GameObject Obstacle)
+    public IEnumerator Freeze(GameObject Obstacle)
     {
         platform = Obstacle.GetComponent<MovingPlatform>();
         platform.isFrozen = true;

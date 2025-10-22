@@ -6,6 +6,9 @@ public class MovingPlatform : MonoBehaviour
 {
     [SerializeField]
     private WayPointPath _waypointPath;
+    public freezeBullet freezeB;
+    private Renderer platformRenderer;
+    public Material frozenMat;
 
     [SerializeField]
     private float _speed;
@@ -21,10 +24,15 @@ public class MovingPlatform : MonoBehaviour
 
     public bool isFrozen = false;
 
+    
+
      void Start()
     {
         TargetNextWaypoint();
+        platformRenderer = GetComponent<Renderer>();    
     }
+
+    
 
      void FixedUpdate()
     {
@@ -60,15 +68,38 @@ public class MovingPlatform : MonoBehaviour
         _timeToWaypoint = distanceToWaypoint / _speed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
+       
+
+
         if(other.tag == "Player")
         {
             other.transform.SetParent(transform);
         }
 
+        if(other.tag == "freezeBullet")
+        {
+
+            while (isFrozen)
+            {
+                platformRenderer.material = frozenMat;
+
+            }
+            StartCoroutine(FreezePlatform());
+            Destroy(other.gameObject);
+
+        }
+
        
         
+    }
+
+    private IEnumerator FreezePlatform()
+    {
+        isFrozen = true;
+        yield return new WaitForSeconds(3f);
+        isFrozen = false;
     }
 
     private void OnTriggerExit(Collider other)

@@ -25,7 +25,7 @@ public class FirstPersonControls : MonoBehaviour
     public float currentMoveSpeed;
     public float lookSpeed; // Sensitivity of the camera movement
     public float gravity = -9.81f; // Gravity value
-    public float jumpHeight = 1.0f; // Height of the jump
+    public float jumpHeight = 1.5f; // Height of the jump
     public Transform playerCamera; // Reference to the player's camera
     public Camera cam;
 
@@ -92,7 +92,7 @@ public class FirstPersonControls : MonoBehaviour
 
     [Header("PORTAL VELOCITY")]
     public Vector3 portalVelocity; // Separate portal exit velocity
-    public float portalVelocityDecay = 2f; // How quickly portal velocity fades
+    public float portalVelocityDecay = 3f; // How quickly portal velocity fades
 
 
     public enum WeaponType { PortalGun, FreezeGun }
@@ -201,7 +201,7 @@ public class FirstPersonControls : MonoBehaviour
             ApplyGravity();
             UpdateStamina();
             
-            //ApplyPortalVelocity();
+            ApplyPortalVelocity();
 
             //CalculateTrueVelocity();
         }
@@ -228,15 +228,33 @@ public class FirstPersonControls : MonoBehaviour
     {
         if (portalVelocity.magnitude > 0.1f)
         {
+            // CRITICAL FIX: Stop portal velocity when player is grounded
+            if (characterController.isGrounded)
+            {
+                Debug.Log("player on ground");
+                // Apply strong friction when grounded
+                portalVelocity = Vector3.MoveTowards(portalVelocity, Vector3.zero, portalVelocityDecay * 3f * Time.deltaTime);
+
+                // Extra: if moving very slowly on ground, stop completely
+                if (portalVelocity.magnitude < 2f)
+                {
+                    portalVelocity = Vector3.zero;
+                    return;
+                }
+            }
+
             // Apply portal velocity
             characterController.Move(portalVelocity * Time.deltaTime);
 
-            // Gradually reduce portal velocity (simulate friction/air resistance)
-            portalVelocity = Vector3.Lerp(portalVelocity, Vector3.zero, portalVelocityDecay * Time.deltaTime);
+            // Normal decay in air
+            portalVelocity = Vector3.MoveTowards(portalVelocity, Vector3.zero, portalVelocityDecay * Time.deltaTime);
         }
-    
-           
-        
+        else if (portalVelocity.magnitude > 0f)
+        {
+            portalVelocity = Vector3.zero;
+        }
+
+
     }
 
     public void OverwritePreviousPosition(Vector3 pos)
@@ -254,7 +272,7 @@ public class FirstPersonControls : MonoBehaviour
     public void AddPortalExitVelocity(Vector3 exitVelocity)
     {
         portalVelocity = exitVelocity;
-        velocity = exitVelocity;
+        //velocity = exitVelocity;
     }
 
     public void Move()
@@ -317,6 +335,7 @@ public class FirstPersonControls : MonoBehaviour
         {
             // Calculate the jump velocity
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
         }
     }
 
