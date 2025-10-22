@@ -78,7 +78,7 @@ public class MovingPlatform : MonoBehaviour
             other.transform.SetParent(transform);
         }
 
-        if(other.tag == "freezeBullet")
+        if(other.tag == "freezeBullet" && !isFrozen)
         {
 
             while (isFrozen)
