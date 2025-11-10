@@ -134,19 +134,19 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the jump input event
         playerInput.Player.Dash.performed += ctx => Dash(); // Call the Jump method when jump input is performed
 
-        playerInput.Portals.RedPortal.performed += ctx => FirePortal(0, transform.position, transform.forward, 250.0f);
-        playerInput.Portals.BluePortal.performed += ctx => FirePortal(1, transform.position, transform.forward, 250.0f);
+        playerInput.Portals.RedPortal.performed += ctx => FirePortal(0, playerCamera.position, transform.forward, 250.0f);
+        playerInput.Portals.BluePortal.performed += ctx => FirePortal(1, playerCamera.position, transform.forward, 250.0f);
 
         playerInput.Menu.Reset.performed += ctx => ReloadCurrentScene();
 
         //portals 
-        portals.Enable();
+        playerInput.Portals.Enable();
     }
 
     private void OnDisable()
     {
         playerInput.Player.Disable();
-        portals.Disable();
+        playerInput.Portals.Disable();
     }
 
     private void Update()
@@ -164,6 +164,7 @@ public class FirstPersonControls : MonoBehaviour
 
     private void FirePortal(int portalID, Vector3 pos, Vector3 dir, float distance)
     {
+        Debug.Log($"FirePortal called for {portalID}");
         RaycastHit hit;
         Physics.Raycast(pos, dir, out hit, distance, layerMask);
 

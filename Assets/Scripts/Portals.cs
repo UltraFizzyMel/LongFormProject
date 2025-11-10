@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,6 +59,18 @@ public class Portals : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PortalPlayer player = other.GetComponent<PortalPlayer>();
+        Debug.Log($"Portal trigger entered by {other.name}");
+        if (player != null)
+        {
+            if (OtherPortal != null && OtherPortal.isPlaced)
+            {
+                Debug.Log($"SetPortals called: {name} → {OtherPortal.name}");
+                player.SetPortals(this, OtherPortal);
+            }
+            return;
+        }
+
         var obj = other.GetComponent<PortableObject>();
         if (obj != null)
         {
@@ -67,8 +79,22 @@ public class Portals : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponentInParent<PortalPlayer>())
+            Debug.Log($"{name}: Player still inside portal");
+    }
+
     private void OnTriggerExit(Collider other)
     {
+        PortalPlayer player = other.GetComponent<PortalPlayer>();
+        if (player != null)
+        {
+            // Clear the portal references so player won't warp accidentally
+            player.ClearPortals(this, OtherPortal);
+            return;
+        }
+
         var obj = other.GetComponent<PortableObject>();
 
         if (portalObjects.Contains(obj))
@@ -92,6 +118,22 @@ public class Portals : MonoBehaviour
             this.wallCollider = wallCollider;
             transform.position = testTransform.position;
             transform.rotation = testTransform.rotation;
+
+            Vector3 targetSize = new Vector3(1f, 2f, 0.05f)*2; // desired portal size in Unity units
+            Renderer rend = GetComponent<Renderer>();
+            if (rend != null)
+            {
+                Vector3 meshSize = rend.bounds.size; // current world size of the mesh
+                Vector3 scaleMultiplier = new Vector3(
+                    targetSize.x / meshSize.x,
+                    targetSize.y / meshSize.y,
+                    targetSize.z / meshSize.z
+                );
+                transform.localScale = Vector3.Scale(transform.localScale, scaleMultiplier);
+            }
+
+            Debug.Log($"Placed portal at {transform.position} with rotation {transform.rotation.eulerAngles}");
+            //Debug.Log($"Portal scale: {transform.localScale}, testTransform scale: {testTransform.localScale}");
 
             gameObject.SetActive(true);
             isPlaced = true;

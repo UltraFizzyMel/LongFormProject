@@ -48,7 +48,7 @@ public class PortalCamera : MonoBehaviour
 
     void UpdateCamera(ScriptableRenderContext SRC, Camera camera)
     {
-        if (!portals[0].IsPlaced || !portals[1].IsPlaced) return;
+        if (!portals[0].isPlaced || !portals[1].isPlaced) return;
 
         if (portals[0].Renderer.isVisible)
         {
@@ -69,7 +69,7 @@ public class PortalCamera : MonoBehaviour
         }
     }
 
-    private void RenderCamera(Portal inPortal, Portal outPortal, int iterationID, ScriptableRenderContext SRC)
+    private void RenderCamera(Portals inPortal, Portals outPortal, int iterationID, ScriptableRenderContext SRC)
     {
         Transform inTransform = inPortal.transform;
         Transform outTransform = outPortal.transform;
