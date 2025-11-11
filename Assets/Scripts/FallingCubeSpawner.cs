@@ -9,9 +9,9 @@ public class FallingCubeSpawner : MonoBehaviour
     public GameObject fallingCubePrefab;
 
     [Header("Spawn Settings")]
-    public float minSpawnDelay = 0.75f; // Reduced for faster spawning
+    public float minSpawnDelay = 1.5f; // Reduced for faster spawning
     public float maxSpawnDelay = 1.5f;
-    public float cubeFallSpeed = 15f; // Increased fall speed
+    public float cubeFallSpeed = 10f; // Increased fall speed
     public float spawnHeightOffset = 5f; // Spawn cubes higher up
     public float despawnHeight = -15f; // Lower despawn since cubes start higher
 
