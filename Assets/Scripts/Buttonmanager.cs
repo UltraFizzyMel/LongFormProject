@@ -14,4 +14,24 @@ public class Buttonmanager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void TUTLVL()
+    {
+        SceneManager.LoadScene("TUT_Scene");
+    }
+
+    public void LVL1()
+    {
+        SceneManager.LoadScene("Rhett");
+    }
+
+    public void LVL2()
+    {
+        SceneManager.LoadScene("LVL 2");
+    }
+
+    public void MEnu()
+    {
+        SceneManager.LoadScene("Main menu");
+    }
 }

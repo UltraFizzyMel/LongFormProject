@@ -50,6 +50,7 @@ public class Portal : MonoBehaviour
             otherPortal.MovePlayerToThisPortal(incoming, entryRotation); //(incoming, entryRotation);
 
             Debug.Log("Player Velocity entering: " + incoming.magnitude);
+            
 
         } // currently checks if game object was a player or not 
     }
