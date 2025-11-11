@@ -9,6 +9,8 @@ public class MovingPlatform : MonoBehaviour
     public freezeBullet freezeB;
     private Renderer platformRenderer;
     public Material frozenMat;
+    public Material mat;
+    public float freezetimer = 3f;
 
     [SerializeField]
     private float _speed;
@@ -23,13 +25,14 @@ public class MovingPlatform : MonoBehaviour
     private float _elapsedTime;
 
     public bool isFrozen = false;
+    private Coroutine freezeWarningCoroutine;
 
-    
 
-     void Start()
+
+    void Start()
     {
         TargetNextWaypoint();
-        platformRenderer = GetComponent<Renderer>();    
+        platformRenderer = GetComponent<MeshRenderer>();    
     }
 
     
@@ -70,36 +73,69 @@ public class MovingPlatform : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-       
 
 
-        if(other.tag == "Player")
+
+        if (other.tag == "Player")
         {
             other.transform.SetParent(transform);
         }
 
-        if(other.tag == "freezeBullet" && !isFrozen)
+        if (other.tag == "freezeBullet" && !isFrozen)
         {
-
-            while (isFrozen)
-            {
-                platformRenderer.material = frozenMat;
-
-            }
             StartCoroutine(FreezePlatform());
             Destroy(other.gameObject);
-
         }
 
-       
-        
+
+
+
     }
 
     private IEnumerator FreezePlatform()
     {
+        // Set frozen state and material
         isFrozen = true;
-        yield return new WaitForSeconds(3f);
+        platformRenderer.material = frozenMat;
+
+        // Start warning effect after 1.5 seconds
+        StartCoroutine(StartFreezeWarning());
+
+        // Wait for freeze duration
+        yield return new WaitForSeconds(freezetimer);
+
+        // Stop warning effect and restore normal state
         isFrozen = false;
+        platformRenderer.material = mat;
+
+        if (freezeWarningCoroutine != null)
+        {
+            StopCoroutine(freezeWarningCoroutine);
+        }
+    }
+
+    private IEnumerator StartFreezeWarning()
+    {
+        // Wait until there's only 1.5 seconds left in the freeze
+        yield return new WaitForSeconds(freezetimer - 1.5f);
+
+        // Start the flashing warning effect
+        freezeWarningCoroutine = StartCoroutine(FreezeWarning());
+    }
+
+    private IEnumerator FreezeWarning()
+    {
+        // Flash between materials until freeze ends
+        while (isFrozen)
+        {
+            platformRenderer.material = mat;
+            yield return new WaitForSeconds(0.25f);
+            platformRenderer.material = frozenMat;
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        // Ensure we end with the normal material
+        platformRenderer.material = mat;
     }
 
     private void OnTriggerExit(Collider other)

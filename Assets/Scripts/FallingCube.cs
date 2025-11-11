@@ -15,12 +15,15 @@ public class FallingCube : MonoBehaviour
     [Header("Freeze Settings")]
     public bool isFrozen = false;
     public float freezeDuration = 3f;
+    public float warningStartTime = 1.5f; // When to start flashing before unfreeze
 
     private Rigidbody rb;
     private Renderer cubeRenderer;
     private Material normalMat;
     private Material frozenMat;
     private float spawnTime;
+    private Coroutine freezeWarningCoroutine;
+    private Coroutine unfreezeCoroutine;
 
     //Frozen particle effect
     public GameObject effect;
@@ -122,21 +125,53 @@ public class FallingCube : MonoBehaviour
             }
 
             // Start unfreeze timer
-            StartCoroutine(UnfreezeAfterTime());
+            unfreezeCoroutine = StartCoroutine(UnfreezeAfterTime());
         }
     }
 
     IEnumerator UnfreezeAfterTime()
     {
-        yield return new WaitForSeconds(freezeDuration);
+        // Calculate when to start the warning flash (freezeDuration - warningStartTime seconds before unfreezing)
+        float warningStart = freezeDuration - warningStartTime;
+
+        // Wait until it's time to start the warning
+        yield return new WaitForSeconds(warningStart);
+
+        // Start the flashing warning effect
+        freezeWarningCoroutine = StartCoroutine(FreezeWarning());
+
+        // Wait for the remaining warning duration
+        yield return new WaitForSeconds(warningStartTime);
 
         UnfreezeCube();
+    }
+
+    IEnumerator FreezeWarning()
+    {
+        // Flash between materials until unfrozen
+        while (isFrozen)
+        {
+            if (cubeRenderer != null && normalMat != null)
+                cubeRenderer.material = normalMat;
+            yield return new WaitForSeconds(0.25f);
+
+            if (cubeRenderer != null && frozenMat != null)
+                cubeRenderer.material = frozenMat;
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
     void UnfreezeCube()
     {
         isFrozen = false;
         effect.SetActive(false);
+
+        // Stop any running warning coroutine
+        if (freezeWarningCoroutine != null)
+        {
+            StopCoroutine(freezeWarningCoroutine);
+            freezeWarningCoroutine = null;
+        }
 
         // Restore normal material
         if (cubeRenderer != null && normalMat != null)
