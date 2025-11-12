@@ -4026,7 +4026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 302993064470278965, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2627754606577949316, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_Name
@@ -4037,12 +4037,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: c5f5a3e2d1e5149418a8e35577b55a7c, type: 2}
     - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15.186184
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_LocalScale.y
       value: 3.366555
       objectReference: {fileID: 0}
     - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 8.757746
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.4
+      value: 28.9585
       objectReference: {fileID: 0}
     - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4050,7 +4058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -83.5
+      value: -82.8247
       objectReference: {fileID: 0}
     - target: {fileID: 8026923955686487266, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4083,13 +4091,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2627754606577949316, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 852728013}
-    - targetCorrespondingSourceObject: {fileID: 2627754606577949316, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 852728012}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
 --- !u!1 &584410504
 GameObject:
@@ -6023,52 +6025,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839616514}
   m_Mesh: {fileID: 4536773283001372330, guid: 3fc95d9df1dc4b04b93502a5a3e5e9be, type: 3}
---- !u!1 &852728011 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2627754606577949316, guid: e98b3af4111ee814db3481b1d6b2ec97, type: 3}
-  m_PrefabInstance: {fileID: 566118427}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &852728012
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852728011}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &852728013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852728011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9482ae4e97b5b24fa8f8697f034e376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waypointPath: {fileID: 392382015}
-  freezeB: {fileID: 0}
-  frozenMat: {fileID: 2100000, guid: 59cca7f2f11df36408248a16abec7552, type: 2}
-  mat: {fileID: 2100000, guid: c5f5a3e2d1e5149418a8e35577b55a7c, type: 2}
-  freezetimer: 3
-  _speed: 7
-  isFrozen: 0
 --- !u!1 &884720675
 GameObject:
   m_ObjectHideFlags: 0
