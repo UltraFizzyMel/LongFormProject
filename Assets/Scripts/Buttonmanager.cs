@@ -34,4 +34,20 @@ public class Buttonmanager : MonoBehaviour
     {
         SceneManager.LoadScene("Main menu");
     }
+
+    public void ReplayPreviousScene()
+    {
+        // Get the name of the scene that was active before loading the end screen
+        string previousScene = PlayerPrefs.GetString("PreviousScene", "");
+
+        if (!string.IsNullOrEmpty(previousScene))
+        {
+            SceneManager.LoadScene(previousScene);
+        }
+        else
+        {
+            Debug.LogWarning("No previous scene found. Reloading default scene.");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
 }

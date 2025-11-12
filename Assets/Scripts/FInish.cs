@@ -26,13 +26,18 @@ public class Finish : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("You Win!");
-            FPC.canPlayerMove = false;
-            //WS.SetActive(true);
-            //PG.enabled = false;
-            FPC.enabled = false;
-            SceneManager.LoadScene("Menu");
-            //PC.enabled = false;
+            EndGame();
         }
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("You Win!");
+        FPC.canPlayerMove = false;
+        //WS.SetActive(true);
+        //PG.enabled = false;
+        FPC.enabled = false;
+        SceneManager.LoadScene("Menu");
+        //PC.enabled = false;
     }
 }
