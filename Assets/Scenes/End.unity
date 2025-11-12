@@ -2323,6 +2323,7 @@ MonoBehaviour:
   btnRestart: {fileID: 1191648432}
   btnMainMenu: {fileID: 793059739}
   btnQuit: {fileID: 468172368}
+  btnLeaderboard: {fileID: 268696695}
 --- !u!1 &1455226164
 GameObject:
   m_ObjectHideFlags: 0
