@@ -65,8 +65,10 @@ public class LeaderboardUpdater : MonoBehaviour
         if (playerTime > timeLimit)
             return;
 
+        string result = PlayerPrefs.GetString("Result", "Lose");
+
         // Player finished within time limit — check for leaderboard qualification
-        if (IsNewHighScore(playerTime))
+        if (IsNewHighScore(playerTime) && result != "Lose")
         {
             btnRestart.interactable = false;
             btnMainMenu.interactable = false;
