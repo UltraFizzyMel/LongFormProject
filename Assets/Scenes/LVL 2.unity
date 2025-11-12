@@ -5388,7 +5388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finish: {fileID: 1496077688}
-  gameDuration: 140
+  gameDuration: 180
   gameEnded: 0
   timerText: {fileID: 282123867}
   elapsedTime: 0
