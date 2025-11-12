@@ -2198,6 +2198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808723745303313408091c3ae662f5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Contpanel: {fileID: 0}
 --- !u!4 &394509745
 Transform:
   m_ObjectHideFlags: 0
@@ -7682,7 +7683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finish: {fileID: 55187474}
-  gameDuration: 120
+  gameDuration: 50
   gameEnded: 0
   timerText: {fileID: 106000491}
   elapsedTime: 0
