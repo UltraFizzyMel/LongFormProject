@@ -8,6 +8,7 @@ public static class LeaderboardManager
         string json = JsonUtility.ToJson(new LeaderboardData { entries = entries });
         PlayerPrefs.SetString(levelName + "_Leaderboard", json);
         PlayerPrefs.Save();
+        Debug.Log("Leaderboard saved for level: " + levelName);
     }
 
     public static List<LeaderboardEntry> LoadLeaderboard(string levelName)

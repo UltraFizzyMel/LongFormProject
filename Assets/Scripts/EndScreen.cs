@@ -6,7 +6,7 @@ public class EndScreen : MonoBehaviour
 {
     public TextMeshProUGUI resultText;
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI messageText; // 👈 Add another Text UI for the personalized message
+    public TextMeshProUGUI messageText; // Add another Text UI for the personalized message
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class EndScreen : MonoBehaviour
         if (result != "Lose")
             timeText.text += string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, hundredths);
 
-        // 🎨 Set color and message based on performance
+        // Set color and message based on performance
         switch (result)
         {
             case "Gold":
