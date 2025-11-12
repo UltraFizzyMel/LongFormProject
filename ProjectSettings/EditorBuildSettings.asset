@@ -23,5 +23,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: 68ed75d52a71cc24e9a48ed185669652
+  - enabled: 1
+    path: Assets/Scenes/Leaderboard.unity
+    guid: 9dfe3391a8e4eb0428f02f56e77a0dc9
+  - enabled: 1
+    path: Assets/Scenes/Melissa.unity
+    guid: 2a5d2a295421a70469168a1a4de53d92
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3de1053d9faf5254e8903f20de192174, type: 3}

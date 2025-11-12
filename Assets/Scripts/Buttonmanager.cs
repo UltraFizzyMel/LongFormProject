@@ -23,11 +23,18 @@ public class Buttonmanager : MonoBehaviour
     public void LVL1()
     {
         SceneManager.LoadScene("Rhett");
+        //SceneManager.LoadScene("Melissa");
     }
 
     public void LVL2()
     {
         SceneManager.LoadScene("LVL 2");
+        //SceneManager.LoadScene("Melissa");
+    }
+
+    public void Level3()
+    {
+        SceneManager.LoadScene("Level 3");
     }
 
     public void MEnu()
@@ -49,5 +56,10 @@ public class Buttonmanager : MonoBehaviour
             Debug.LogWarning("No previous scene found. Reloading default scene.");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    public void Leaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard");
     }
 }

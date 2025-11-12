@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class NewFinish : MonoBehaviour
 {
     public Timer timer;
+    public float timeLimit;
+    public bool isDeath = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeLimit = timer.gameDuration;
     }
 
     // Update is called once per frame
@@ -21,6 +24,12 @@ public class NewFinish : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         timer.gameEnded = true;
+
+        if (isDeath)
+        {
+            EndGame("Lose");
+            return;
+        }
 
         if (timer.goldMedal == true)
             EndGame("Gold");
@@ -36,6 +45,7 @@ public class NewFinish : MonoBehaviour
     {
         PlayerPrefs.SetString("Result", result);  // save medal type
         PlayerPrefs.SetFloat("Time", timer.elapsedTime); // save completion time
+        PlayerPrefs.SetFloat("TimeLimit", timeLimit);
         PlayerPrefs.Save();
 
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);

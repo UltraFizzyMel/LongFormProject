@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
 {
     public NewFinish finish;
 
-    [SerializeField] private float gameDuration = 120f;
+    [SerializeField] public float gameDuration = 120f;
     public bool gameEnded = false;
 
     [SerializeField] TextMeshProUGUI timerText;
