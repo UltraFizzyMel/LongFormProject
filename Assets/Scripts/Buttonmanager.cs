@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Buttonmanager : MonoBehaviour
 {
+    public GameObject Contpanel;
+
     public void REplay()
     {
         SceneManager.LoadScene("Rhett");
@@ -61,5 +63,15 @@ public class Buttonmanager : MonoBehaviour
     public void Leaderboard()
     {
         SceneManager.LoadScene("Leaderboard");
+    }
+
+    public void Controlpanel()
+    {
+        Contpanel.SetActive(true);
+    }
+
+    public void Back()
+    {
+        Contpanel.SetActive(false);
     }
 }
