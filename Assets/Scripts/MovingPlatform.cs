@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,20 +77,29 @@ public class MovingPlatform : MonoBehaviour
 
 
 
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("playerOnePlat");
             other.transform.SetParent(transform);
+
         }
 
-        if (other.tag == "freezeBullet" && !isFrozen)
+        if (other.CompareTag("freezeBullet"))
         {
             StartCoroutine(FreezePlatform());
             Destroy(other.gameObject);
         }
+    
 
+    }
 
-
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("freezeBullet") && !isFrozen)
+        {
+            StartCoroutine(FreezePlatform());
+            Destroy(collision.gameObject);
+        }
     }
 
     private IEnumerator FreezePlatform()
